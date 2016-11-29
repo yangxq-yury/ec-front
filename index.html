@@ -13,16 +13,15 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
     <link rel="stylesheet" href="css/main.css">
-    <!--&lt;!&ndash; Modernizr &ndash;&gt;-->
-    <!--<script src="js/vendor/modernizr-2.8.3.min.js"></script>-->
-    <!--&lt;!&ndash; Respond.js for IE 8 or less only &ndash;&gt;-->
-    <!--&lt;!&ndash;[if (lt IE 9) & (!IEMobile)]>-->
-    <!--<script src="js/vendor/respond.min.js"></script>-->
-    <!--<![endif]&ndash;&gt;-->
+    <link rel="stylesheet" href="css/index.css">
+    <!-- Modernizr -->
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    <!-- Respond.js for IE 8 or less only -->
+    <!--[if (lt IE 9) & (!IEMobile)]>
+    <script src="js/vendor/respond.min.js"></script>
+    <![endif]-->
 
-    <script src="js/react/react.js"></script>
-    <script src="js/react/react-dom.js"></script>
-    <script src="http://cdn.bootcss.com/babel-core/5.8.38/browser.min.js"></script>
+
 </head>
 <body>
 <!--[if lte IE 7]>
@@ -31,31 +30,33 @@
 
 <header>
     <!-- 顶部 -->
-    <section id="top">
-        <img src="img/decoration/top.jpg" />
+    <section id="top" class="top-img">
+        <a>
+            <img src="img/decoration/top.jpg" />
+        </a>
     </section>
 
-    <!-- 功能栏 -->
-    <div id="function-list">
+    <!-- 功能列表 -->
+    <div id="function-list" class="function-list">
     </div>
 
     <!-- logo 和搜索 -->
     <section id="head">
-        <div id="logo"></div>
-        <div id="search"></div>
+        <!--<div id="logo"></div>-->
+        <!--<div id="search"></div>-->
     </section>
 
     <!-- 菜单栏 -->
-    <nav id="menu" class="navbar">
-        <div id="category-menu">商品分类</div>
-        <div id="cheap-menu">全场9块9</div>
-        <div id="new-menu">新品尝鲜</div>
-        <div id="import-menu">进口食品</div>
+    <nav id="menu-list" class="navbar">
+        <!--<div id="category-menu">商品分类</div>-->
+        <!--<div id="cheap-menu">全场9块9</div>-->
+        <!--<div id="new-menu">新品尝鲜</div>-->
+        <!--<div id="import-menu">进口食品</div>-->
     </nav>
 
-    <section>
-        <div id="rotates"></div>
-        <div id="hot-sale"></div>
+    <section id="banner">
+        <!--<div id="rotates"></div>-->
+        <!--<div id="hot-sale"></div>-->
     </section>
 </header>
 
@@ -89,11 +90,15 @@
     <section id="bottom"></section>
 </footer>
 
+<script src="js/react/react.js"></script>
+<script src="js/react/react-dom.js"></script>
+<script src="http://cdn.bootcss.com/babel-core/5.8.38/browser.min.js"></script>
 
 <script src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.4.min.js"><\/script>')</script>
 
 <script src="js/plugins.js"></script>
+<script src="js/settings.js"></script>
 <script type="text/babel" src="js/index.js"></script>
 
 </body>
