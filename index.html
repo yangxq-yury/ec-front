@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]>      <html class="no-import_modules lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-import_modules lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-import_modules lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
@@ -13,12 +13,12 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="dist/index.css">
     <!-- Modernizr -->
-    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
-    <!-- Respond.js for IE 8 or less only -->
+    <script src="import_modules/vendor/modernizr-2.8.3.min.js"></script>
+    <!-- Respond.import_modules for IE 8 or less only -->
     <!--[if (lt IE 9) & (!IEMobile)]>
-    <script src="js/vendor/respond.min.js"></script>
+    <script src="import_modules/vendor/respond.min.js"></script>
     <![endif]-->
 
 
@@ -90,16 +90,15 @@
     <section id="bottom"></section>
 </footer>
 
-<script src="js/react/react.js"></script>
-<script src="js/react/react-dom.js"></script>
+<script src="import_modules/react/react.js"></script>
+<script src="import_modules/react/react-dom.js"></script>
 <script src="http://cdn.bootcss.com/babel-core/5.8.38/browser.min.js"></script>
 
 <script src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.4.min.js"><\/script>')</script>
+<script>window.jQuery || document.write('<script src="import_modules/vendor/jquery-1.12.4.min.js"><\/script>')</script>
 
-<script src="js/plugins.js"></script>
-<script src="js/settings.js"></script>
-<script type="text/babel" src="js/index.js"></script>
+<script src="import_modules/plugins.js"></script>
+<script src="dist/index.js"></script>
 
 </body>
 </html>

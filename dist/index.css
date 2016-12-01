@@ -1,0 +1,33 @@
+@media screen and (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+.top-img {
+  min-width: 1200px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+.top-img a {
+  display: block;
+  left: 50%;
+  margin-left: -1200px;
+  position: relative;
+  text-align: center;
+  width: 2400px;
+}
+.function-list {
+  background-color: red;
+}
