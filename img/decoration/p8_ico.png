@@ -1,0 +1,641 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>商品详情</title>
+	<link rel="stylesheet" href="http://www.lppz.com/resources/shop/css/layout.css">
+	<script src="http://www.lppz.com/resources/shop/js/jquery.min.js"></script>
+	<script src="http://www.lppz.com/resources/shop/js/common.js"></script>
+</head>
+<body class="product-detail">
+	<!-- header include -->
+<script type="text/javascript" src="http://www.lppz.com/resources/shop/js/base.js"></script>
+<script type="text/javascript" src="http://www.lppz.com/resources/shop/js/upload/jquery.cookie.js"></script>
+
+<script type="text/javascript">
+var username;
+$().ready(initPage);
+function checkname(callback) {
+	$.ajax({
+		url: "http://www.lppz.com/sso/checkname.jhtml",
+		async: false,
+		type: "GET",
+		cache: false,
+		dataType: 'jsonp',
+   		jsonp: 'callback',
+		success: callback
+	});
+}
+
+function initPage(){
+	var $headerLogin = $("#headerLogin");
+	var $headerRegister = $("#headerRegister");
+	var $headerUsername = $("#headerUsername");
+	var $headerLogout = $("#headerLogout");
+	var $productSearchForm = $("#productSearchForm");
+	var $keyword = $("#productSearchForm input");
+	var defaultKeyword = "商品搜索";
+	
+	checkname(function(message) {
+		if (message == '#') {
+			window.location.href = "https://reg.lppz.com/bind/index.jhtml";
+		}
+		username = message;
+		if (username) {
+			$headerUsername.html("您好 <a href=\"http://home.lppz.com/member/index.jhtml\" class=\"user\">"+username+"</a>，").show();
+			$headerLogout.show();
+			$headerLogin.hide();
+			$headerRegister.hide();
+			$('.alipay').parent().hide();
+			$('.qq').parent().hide();
+			$('.weibo').parent().hide();
+		} else {
+			$headerLogout.hide();
+			$headerLogin.show();
+			$headerRegister.show();
+			$('.alipay').parent().show();
+			$('.qq').parent().show();
+			$('.weibo').parent().show();
+		}
+		
+		if (window.afterloadmember) {
+			window.afterloadmember();
+		}
+		
+		$(document).trigger('afterloadmember', username);
+	});
+}
+</script>
+<script type="text/javascript" src="http://116.211.81.199:8090/WebChatClient/js/init.js" charset="utf-8"></script>
+<script language="javascript" type="text/javascript" charset="utf-8">
+ 	NTKF_PARAM = {
+      siteid:"lppz_netinfo",
+      uid:username||'',
+      uname:username||''
+     
+};
+</script>
+<div id="out"></div>
+<!-- header -->
+<div class="toolbar">
+	<div class="toolbar-cont wrap">
+		<ul class="fl">
+			<li id="headerUsername" class="headerUsername"></li>
+			<li>欢迎来到良品铺子官方商城！</li>
+			<li id="headerLogin" class="headerLogin none"><a class="log" href="javascript:login();">[登录]</a></li>
+			<li id="headerRegister" class="headerRegister none"><a class="reg" href="https://reg.lppz.com/register.jhtml">[注册]</a></li>				
+			<li id="headerLogout" class="headerLogout none"><a class="log" href="http://www.lppz.com/logout.jhtml">[退出]</a></li>
+			<li class="none"><a class="alipay" href="https://login.lppz.com/alipayapi">支付宝快捷登录</a></li>
+			<li class="none"><a class="qq" href="https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101096899&redirect_uri=http://www.lppz.com/index.jsp?client_name=qq&scope=">QQ</a></li>
+			<li class="none"><a class="weibo" href="https://api.weibo.com/oauth2/authorize?client_id=4151902230&response_type=code&redirect_uri=http://www.lppz.com/index.jsp?client_name=sina&scope=">微博登录</a></li>
+		</ul>
+		<ul class="fr">
+				<li class="thover ">
+					<div class="top-user-info">
+						<a class="my-lppz dorp-title">我的良品<i class="arrow"></i></a>
+						<div class="my-lppz-layer">
+						    <div class="dorp-spacer"></div>
+						    <div class="user-info">
+						        <div class="m-pic">
+						            <img id="avatarImg" src="http://www.lppz.com/resources/shop/img/avatar.png" alt="用户头像" />
+						        </div>
+						        <div class="m-name" id="divlogin">
+						        	<a class="nick" href="http://home.lppz.com/member/index.jhtml" id="username"></a>
+						            <a class="level" href="###" title="" id="levelName"></a>
+						        </div>
+						        <!--<div class="m-phone" id="mobile"></div>-->
+								<div class="m-name" id="divnologin">
+                                         <a href="javascript:login();">您好，请登录</a>
+						        </div>
+						    </div>
+						    <div class="menu-list">
+						        <div class="m-nav">
+						            <div class="item"><a target="_blank" href="http://home.lppz.com/member/order/list.jhtml">我的订单</a></div>
+						            <div class="item"><a target="_blank" href="http://home.lppz.com/member/favorite/list.jhtml">我的关注</a></div>
+						            <div class="item"><a target="_blank" href="http://home.lppz.com/member/coupon_code/list.jhtml">我的优惠券<span id="spancouponcount">(<span class="num red" id="couponCount"></span>)</span></a></div>
+						            <div class="item"><a target="_blank" href="http://home.lppz.com/member/point/list.jhtml">我的积分</a></div>
+						        </div>
+						        <div class="m-btn">
+						            <div class="item"> <a clstag="" href="http://home.lppz.com/member/index.jhtml">签到有好礼</a> </div>
+						            <div class="item"> <a target="_blank" clstag="" href="http://www.lppz.com/article/list/3.jhtml">购物指南</a> </div>
+						        </div>
+						    </div>
+						    <div class="view-list">
+						        <div class="vl-title"><h4>最近浏览</h4><a class="more" href="http://home.lppz.com/member/history/list.jhtml" target="_blank">更多&nbsp;&gt;</a></div>
+						        <ul class="vl-cont" id="ulHistory"></ul>
+						    </div>
+						</div>
+					</div>
+				</li>
+				<li class="tspacer">|</li>
+				<li class="thover">
+					<div class="top-follow">
+						<a class="follow" href="javascript:;">关注良品</a>
+						<div class="follow-on">
+							<div class="fll-wb">
+								<span>关注微博</span>
+								<div class="gz"><wb:follow-button uid="1851770484" type="red_2" width="136" height="24" ></wb:follow-button></div>
+							</div>
+							<div class="fll-wx">
+								<div class="qr-code"><img src="http://www.lppz.com/resources/shop/img/dz_qrcode.jpg" alt=""></div>
+								<p>微信扫一扫<br/>优惠随身携带！</p>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="tspacer">|</li>
+				<li><a class="tlink" target="_blank" href="http://www.517lppz.com">官方网站</a></li>
+				<li class="tspacer">|</li>
+				<li><span class="tel">全国订购热线：<em>400-1177-517</em></span></li>
+				<!--<li><a href="#" onclick="NTKF.im_openInPageChat()" class="serv">在线客服<i class="icon">▪</i></a></li>-->
+				<li><a href="#" onclick="initCustomer()" class="serv">在线客服<i class="icon">▪</i></a></li>
+		</ul>
+	</div>
+</div>
+<div class="header">
+	<div class="head-main wrap clearfix">
+		<div class="logo"><a href="http://www.lppz.com">良品铺子-BESTORE</a><span>官方商城</span></div>
+		<div class="hd-search">
+			<div class="hot-tag">
+					<span>热门搜索：</span>
+							<a target="_blank" class="red" href="http://search.lppz.com/product/search.jhtml?keyword=%E6%9D%BE%E5%AD%90">松子</a>
+							<a target="_blank" href="http://search.lppz.com/product/search.jhtml?keyword=%E7%89%9B%E8%82%89">牛肉</a>
+							<a target="_blank" href="http://search.lppz.com/product/search.jhtml?keyword=%E5%BC%80%E5%BF%83%E6%9E%9C">开心果</a>
+							<a target="_blank" href="http://search.lppz.com/product/search.jhtml?keyword=%E6%A0%B8%E6%A1%83">核桃</a>
+							<a target="_blank" href="http://search.lppz.com/product/search.jhtml?keyword=%E8%AF%9D%E6%A2%85">话梅</a>
+							<a target="_blank" href="http://search.lppz.com/product/search.jhtml?keyword=%E8%8A%B1%E7%94%9F%E7%93%9C%E5%AD%90">花生瓜子</a>
+			</div>
+			<div class="search-area">
+				<form id="productSearchForm" action="http://search.lppz.com/product/search.jhtml" method="post" target="_blank">
+					<input class="sch-key" type="text" name="keyword" id="keyword" value="商品搜索">
+					<input class="sch-btn" type="submit" value="搜 索">
+				</form>
+			</div>
+		</div>
+		<div class="hd-user">
+			<div class="user-shoping">
+				<a class="us-btn indexcart" href="http://www.lppz.com/cart/list.jhtml">购物车</a>
+				<span class="us-num cart-cache-num"><b>0</b></span>
+				<div class="cart-list cart-list-body">
+					<span class="tit">最新加入的商品</span>
+					<div class="cart-roll">
+						<ul class="goods"></ul>
+					</div>				
+					<div class="total">
+						<p>共<span class="red">0</span>件商品，共计<span class="sum">￥0.00</span></p>
+						<a class="settle" href="http://www.lppz.com/cart/list.jhtml">去购物车结算</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		//刷新head里面的购物车
+		function refreshCart() {
+			$.ajax({
+				url: "http://www.lppz.com/cart/cartHeadData.jhtml",
+				type: "GET",
+				cache: false,
+				dataType: 'jsonp',
+				jsonp: 'callback',
+				success: function(message) {
+					message = decodeURI(decodeURIComponent(message));
+					message = message.replace(/\+/g, ' ');
+					$(".cart-list-body").html(message);
+					var cartCacheNum = $.cookie('cart-cache-num');
+					$('.cart-cache-num').html('<b>' + (!!cartCacheNum ? cartCacheNum : 0) + '</b>');
+					$('#cartcount').html(!!cartCacheNum ? cartCacheNum : 0);
+				}
+			});
+		}
+		$(function() {
+			var $keyword = $("#productSearchForm input");
+			var defaultKeyword = "商品搜索";
+			//搜索框进入
+			$keyword.focus(function() {
+				if ($keyword.val() == defaultKeyword) {
+					$keyword.val("");
+				}
+			});
+			//搜索框离开
+			$keyword.blur(function() {
+				if ($keyword.val() == "") {
+					$keyword.val(defaultKeyword);
+				}
+			});
+
+			//页面购物车数量
+			var cartCacheNum = $.cookie('cart-cache-num');
+			$('.cart-cache-num').html('<b>' + (!!cartCacheNum ? cartCacheNum : 0) + '</b>');
+			$('#cartcount').html(!!cartCacheNum ? cartCacheNum : 0);
+			
+			//显示购物车详情
+			var getcartdelay;
+			$('.indexcart').mouseenter(function() {
+				clearTimeout(getcartdelay);
+				getcartdelay = setTimeout(function() {refreshCart();}, 500);
+			});
+			//删除购物车
+			$('.delete-header-cart-item').die().live('click', function() {
+				var catItemId = $(this).attr('cart-item-id')
+				deleteHeadCart(catItemId);
+			});
+			
+			//删除购物车的方法
+			function deleteHeadCart(itemId) {
+				if (!confirm("您确定要删除吗？")) {
+					return false;
+				}
+				
+				$.ajax({
+					url: "http://www.lppz.com/cart/delete.jhtml",
+					type: "GET",
+					data: {
+						id: itemId
+					},
+					dataType: 'jsonp',
+   					jsonp: 'callback',
+					cache: false,
+					success: function(data) {
+						if (data.type == "success") {
+							refreshCart();
+						} else {
+							$.message(data);
+						}
+					}
+				});
+			}
+		});
+	</script>
+	
+	<div class="menu clearfix">
+		<div class="menu-main wrap">
+			<div class="goods-sort">
+				<a class="goods-sort-btn" href="#"><span>商品分类</span><i class="icon"></i></a>
+				<div class="goods-sort-nav" style="display: none;">
+					<ul>
+							<li><div class="top-sort"><h3><a href="http://search.lppz.com/product/list/1001.jhtml">
+							<i class="iconfont">&#xe610;</i>坚果炒货</a></h3></div>
+								<div class="sub-sort">
+									<ul class="sub-sort-list">
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100101.jhtml">嗑壳坚果</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100102.jhtml">果果仁仁</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100103.jhtml">特惠炒货</a></li>
+									</ul>
+								</div>
+							</li>
+							<li><div class="top-sort"><h3><a href="http://search.lppz.com/product/list/1002.jhtml">
+							<i class="iconfont">&#xe613;</i>肉脯鱼干</a></h3></div>
+								<div class="sub-sort">
+									<ul class="sub-sort-list">
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100202.jhtml">猪肉系列</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100201.jhtml">牛肉系列</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100203.jhtml">鸡鸭系列</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100205.jhtml">海味系列</a></li>
+									</ul>
+								</div>
+							</li>
+							<li><div class="top-sort"><h3><a href="http://search.lppz.com/product/list/1003.jhtml">
+							<i class="iconfont">&#xe60b;</i>果干果脯</a></h3></div>
+								<div class="sub-sort">
+									<ul class="sub-sort-list">
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100302.jhtml">缤纷果干</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100301.jhtml">话梅山楂</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100303.jhtml">红枣葡萄</a></li>
+									</ul>
+								</div>
+							</li>
+							<li><div class="top-sort"><h3><a href="http://search.lppz.com/product/list/1004.jhtml">
+							<i class="iconfont">&#xe608;</i>糕点糖果</a></h3></div>
+								<div class="sub-sort">
+									<ul class="sub-sort-list">
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100401.jhtml">糕点系列</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100404.jhtml">饼干系列</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100402.jhtml">糖果系列</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100403.jhtml">果冻系列</a></li>
+									</ul>
+								</div>
+							</li>
+							<li><div class="top-sort"><h3><a href="http://search.lppz.com/product/list/1005.jhtml">
+							<i class="iconfont">&#xe60f;</i>素食山珍</a></h3></div>
+								<div class="sub-sort">
+									<ul class="sub-sort-list">
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100501.jhtml">美味豆干</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100502.jhtml">笋菌海带</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100503.jhtml">其他山珍</a></li>
+									</ul>
+								</div>
+							</li>
+							<li><div class="top-sort"><h3><a href="http://search.lppz.com/product/list/1006.jhtml">
+							<i class="iconfont">&#xe611;</i>花茶饮品</a></h3></div>
+								<div class="sub-sort">
+									<ul class="sub-sort-list">
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100602.jhtml">清香花茶</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100603.jhtml">进口饮料</a></li>
+									</ul>
+								</div>
+							</li>
+							<li><div class="top-sort"><h3><a href="http://search.lppz.com/product/list/1007.jhtml">
+							<i class="iconfont">&#xe601;</i>进口食品</a></h3></div>
+								<div class="sub-sort">
+									<ul class="sub-sort-list">
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100708.jhtml">进口糕点</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100709.jhtml">进口糖果</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100701.jhtml">休闲零食</a></li>
+									</ul>
+								</div>
+							</li>
+							<li><div class="top-sort"><h3><a href="http://search.lppz.com/product/list/1008.jhtml">
+							<i class="iconfont">&#xe604;</i>精选礼盒</a></h3></div>
+								<div class="sub-sort">
+									<ul class="sub-sort-list">
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100801.jhtml">零食礼盒</a></li>
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100803.jhtml">年货量贩装</a></li>
+									</ul>
+								</div>
+							</li>
+							<li><div class="top-sort"><h3><a href="http://search.lppz.com/product/list/1009.jhtml">
+							<i class="iconfont">&#xe600;</i>当季热销</a></h3></div>
+								<div class="sub-sort">
+									<ul class="sub-sort-list">
+										<li><a  target="_blank" href="http://search.lppz.com/product/list/100902.jhtml">新品尝鲜</a></li>
+									</ul>
+								</div>
+							</li>
+					</ul>
+				</div>
+			</div>
+			<ul class="menu-list">
+				
+							<li><a href="http://www.lppz.com/activity/content/f1b67860a5754a4d979fb3617f0515d3.html">8月新品</a></li>
+							<li><a href="http://www.lppz.com/activity/content/bbcd05b4162b4c5f881bc4ece2560f42.html">助味奥运惠</a></li>
+							<li><a href="http://www.lppz.com/activity/content/5ebaa7046b854bc7aa0457ffa695d3e4.html">糖果糕点</a></li>
+							<li><a href="http://www.lppz.com/activity/content/f987a41fcf8d4cb4bcfd145200bcddc5.html">进口食品</a></li>
+							<li><a href="http://www.lppz.com/activity/content/a55d2f348a5d494da65809b1c54ff294.html">无肉不欢</a></li>
+							<li><a href="http://www.lppz.com/activity/content/881bf969acf445358503269933aebe4f.html">坚果放价</a></li>
+							<li><a href="http://www.lppz.com/activity/content/512935982b7b4ad192972b0e78a6c9a6.html">缤纷果干</a></li>
+							<li><a href="http://www.lppz.com/activity/content/25bee2a6551c4a35876a60fcbaaa782c.html">良品E卡</a></li>
+			</ul>
+		</div>
+	</div>
+</div>		
+	
+	<div class="container wrap">
+		<div class="sold-out">
+			<div class="sold-out-info">
+				<i class="icon sout"></i>
+				<strong>很抱歉，您查看的商品不存在，可能已下架或转移。</strong>
+				<p>您可以：</p>
+				<p>1、该商品可能已经下架，您可以联系客服咨询。</p>
+				<p>2、在顶部搜索框重新输入关键字搜索。</p>
+				<p>3、去商城<a href="http://www.lppz.com">首页</a>去逛逛，去找您感兴趣的商品或分类。</p>
+			</div>
+		</div>
+		
+		<div class="give-like">
+			<div class="gl-tit"><h3>猜你喜欢</h3></div>
+			<div class="gl-cont">
+			    <div class="gl-scroll">
+					<ul class="gl-list">
+					</ul>
+				</div>
+				<a class="gl-prev" href="javascript:;">Prev</a>
+				<a class="gl-next" href="javascript:;">Next</a>	
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- 右侧功能菜单 -->
+	<!-- 右侧功能菜单 -->
+	<div class="right-navbar">
+		<ul class="rnb-list">
+			<li class="kf"><a class="hvr" id="ntkf_chat_entrance" onclick="initCustomer()" href="javascript:;"><span>客服咨询</span><i class="icon">▪</i></a></li>
+			<li class="gw indexcart"><a href="http://www.lppz.com/cart/list.jhtml"><i class="icon">▪</i><span>购物车</span><small class="sum" id="cartcount">0</small></a></li>
+			<li class="hy"><a class="hvr" target="_blank" href="http://home.lppz.com/member/index.jhtml"><span>会员中心</span><i class="icon">▪</i></a></li>
+			<li class="yh"><a class="hvr" target="_blank" href="http://home.lppz.com/member/coupon_code/list.jhtml"><span>我的优惠券</span><i class="icon">▪</i></a></li>
+			<li class="sc"><a class="hvr" target="_blank" href="http://home.lppz.com/member/favorite/list.jhtml"><span>我的关注</span><i class="icon">▪</i></a></li>
+			<!--<li class="jl"><a class="hvr" target="_blank" href="http://home.lppz.com/member/order/list.jhtml"><span>我的订单</span><i class="icon">▪</i></a></li>-->
+		</ul>
+		<ul class="rnb-link">
+			<li class="qr">
+				<a href="#"><i class="icon">▪</i></a>
+				<div class="cust"><img src="http://www.lppz.com/resources/shop/img/dz_qrcode.jpg" alt="扫一扫关注微信" width="170" height="190"><span class="arrow"></span></div>
+			</li>
+			<li class="goback"><a class="hvr" href="#"><span>返回顶部</span><i class="icon">▪</i></a></li>
+		</ul>
+	</div>
+	<script language="javascript" type="text/javascript">
+	NTKF_PARAM = {
+	  siteid:"kf_9893",
+	  settingid:"kf_9893_1407138307993",
+	  uid: username||'',
+	  uname: username||'',
+	  itemid: ''
+	  
+	  
+	  
+	} 
+	</script>
+	<script type="text/javascript" src="http://download.ntalker.com/t2d2/ntkfstat.js?siteid=kf_9893" charset="utf-8"></script>	<!-- footer -->
+	<!-- footer -->
+	<div class="footer">
+		<div class="foot-service">
+			<ul>
+				<li class="zp"><em>100%</em><p>正品保证</p></li>
+				<li class="th"><em>10天</em><p>无理由退换货</p></li>
+				<li class="by"><em>满68元</em><p>全程包邮</p></li>
+				<li class="jf"><em>积分抵现金</em><p>100积分=1元</p></li>
+				<li class="yh"><em>开箱验货</em><p>先验货再签收</p></li>
+				<li class="sd"><em>闪电发货</em><p>零等待</p></li>
+			</ul>
+		</div>
+		<div class="foot-area">
+			<div class="foot-cont clearfix">
+				<div class="fc-contact">
+					<div class="ctt-icon">热线</div>
+					<div class="ctt-txt">
+						<p><strong>400-1177-517</strong></p>
+						<p>良品铺子客服热线<br/>
+						周一至周日：9：00-22：00</p>
+						<p>招商热线<br/>
+						400-1177-517</p>
+					</div>
+				</div>
+				<div class="fc-link">
+							<dl>
+								<dt><strong>购物指南</strong></dt>
+									<dd>
+											<a target="_blank" href="http://www.lppz.com/article/content/201501/62/1.html">安全账户</a>
+											<a target="_blank" href="http://www.lppz.com/article/content/201501/63/1.html">购物流程</a>
+											<a target="_blank" href="http://www.lppz.com/article/content/201503/86/1.html">老顾客重置密码</a>
+											<a target="_blank" href="http://www.lppz.com/article/content/201503/85/1.html">生日礼购物流程</a>
+											<a target="_blank" href="http://www.lppz.com/article/content/201501/61/1.html">找回密码</a>
+									</dd>
+									
+							</dl>
+							<dl>
+								<dt><strong>物流配送</strong></dt>
+									<dd>
+											<a target="_blank" href="http://www.lppz.com/article/content/201501/64/1.html">配送说明</a>
+											<a target="_blank" href="http://www.lppz.com/article/content/201501/66/1.html">签收与验货</a>
+									</dd>
+									
+							</dl>
+							<dl>
+								<dt><strong>付款说明</strong></dt>
+									<dd>
+											<a target="_blank" href="http://www.lppz.com/article/content/201501/70/1.html">发票制度</a>
+											<a target="_blank" href="http://www.lppz.com/article/content/201501/69/1.html">公司转账</a>
+											<a target="_blank" href="http://www.lppz.com/article/content/201501/67/1.html">在线支付</a>
+									</dd>
+									
+							</dl>
+							<dl>
+								<dt><strong>客户服务</strong></dt>
+									<dd>
+											<a target="_blank" href="http://www.lppz.com/article/content/201501/72/1.html">退换货服务</a>
+											<a target="_blank" href="http://www.lppz.com/article/content/201501/74/1.html">联系我们</a>
+											<a target="_blank" href="http://www.lppz.com/article/content/201501/73/1.html">退款说明</a>
+									</dd>
+									
+							</dl>
+							<dl>
+								<dt><strong>会员专区</strong></dt>
+									<dd>
+											<a target="_blank" href="http://www.lppz.com/article/content/201501/77/1.html">优惠券使用规则</a>
+											<a target="_blank" href="http://www.lppz.com/article/content/201501/76/1.html">积分制度</a>
+											<a target="_blank" href="http://www.lppz.com/article/content/201501/75/1.html">会员须知</a>
+									</dd>
+									
+							</dl>
+				</div>
+				<div class="fc-follow">
+					<div class="qr-code"><img src="http://www.lppz.com/resources/shop/img/ft_qrcode.png" alt=""><span>微信二维码</span></div>
+					<div class="weibo-mail">
+						<div class="wb-tit">微博关注</div>
+						<div class="wb-plus" id="weiBoAttention"><wb:follow-button uid="1851770484" type="red_2" width="136" height="24" ></wb:follow-button></div>
+						<div class="mail-rss" style="display:none;">
+							<div class="rss-box"><input class="tx-ipt" type="text" name="" id="" value="输入邮箱或手机"><input class="rss-btn" type="button" value="订阅"></div>
+							<div class="rss-cancel"><a href="">取消订阅</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="foot-nav">
+				<ul>
+							<li>
+								<a href="http://www.lppz.com/article/list/7.jhtml" target="_blank">关于我们</a>
+								|
+							</li>
+							<li>
+								<a href="http://www.lppz.com/article/content/201501/80/1.html" target="_blank">联系我们</a>
+								|
+							</li>
+							<li>
+								<a href="http://www.lppz.com/article/list/21.jhtml" target="_blank">客户服务</a>
+								|
+							</li>
+							<li>
+								<a href="http://www.lppz.com/article/content/201501/81/1.html" target="_blank">诚聘英才</a>
+								|
+							</li>
+							<li>
+								<a href="http://www.lppz.com/article/content/201501/82/1.html" target="_blank">商务合作</a>
+								|
+							</li>
+							<li>
+								<a href="http://www.lppz.com/article/content/201501/84/1.html" target="_blank">媒体报道</a>
+								|
+							</li>
+							<li>
+								<a href="http://www.lppz.com/#" target="_blank">网站地图</a>
+								|
+							</li>
+							<li>
+								<a href="http://www.lppz.com/" target="_blank">站长招募</a>
+								
+							</li>
+				</ul>
+			</div>
+			<div class="foot-copyright">
+				Copyright@2006-2016 湖北良品铺子电子商务有限公司 All rights Reserved<br/><a target="_blank" href="http://www.miibeian.gov.cn/publish/query/indexFirst.action">鄂ICP备15022981号</a></br>
+				<a href="http://wljg.egs.gov.cn/iciaicweb/dzbscheck.do?method=change&id=E2015081800082726"><img alt="网络经济主体信息" border="0" DRAGOVER="true" src="http://www.lppz.com/resources/shop/images/gslogo.png" /></a>
+			</div>
+		</div>
+	</div>
+
+<script language="javascript">
+function doBind(){
+	var chkBoxes = document.getElementsByName("chkBind");
+	var x = '[';
+	var count=0;
+	      for(var i=0;i<chkBoxes.length;i++){
+		     if(chkBoxes[i].checked==true){
+		        count++;
+				var chkId = chkBoxes[i].id;
+		        var id = chkId.split(';');
+		        x+='{"memberNo":"';
+		        x+=id[0];
+		        x+='","storeid":"';
+		        x+=id[1];
+				x+='"},';
+			 }
+		  }
+		  if(count>0){
+		     x = x.substring(0,x.length-1);
+		  }
+		  x+=']';
+		  if(x =='[]'){
+		     alert("没有选择任何平台");
+		  }else{
+	         $.ajax({
+		        type : "get",
+		        dataType : "json",
+		        url : "http://www.lppz.com/sso/exeThirdAccountBind.jhtml",
+		        data : {"bind":x},
+		        success : function(data){
+					  alert(data.msg);
+					  document.getElementById("ceng").style.display="none";
+					  document.getElementById("Bing").style.display="none";
+		        }
+            });
+	      }
+       }
+	</script>
+	
+	<script src="//configch2.veinteractive.com/tags/B105FE22/510E/4163/911D/0A070929DD44/tag.js" type="text/javascript" async></script>
+	<script type="text/javascript" src="http://www.lppz.com/resources/shop/js/lp_public.js"></script>	
+<!-- 商品图片放大 -->
+<script src="http://www.lppz.com/resources/shop/js/jquery.jqzoom.js"></script>
+<!-- 公用JS -->
+<script src="http://www.lppz.com/resources/shop/js/base.js"></script>
+<!-- 懒加载 -->
+<script src="http://www.lppz.com/resources/shop/js/jquery.lazyload.js"></script>
+<!-- slider -->
+<script src="http://www.lppz.com/resources/shop/js/jquery.flexslider.min.js"></script>
+<script type="text/javascript">
+			// 浏览记录
+		var historyProducts = getCookie("historyProduct");
+		if (!historyProducts) {
+			historyProducts = [];
+		} else {
+			historyProducts = eval('('+historyProducts+')');
+		}
+		
+		var historyView = $('.gl-list');
+		historyView.html('');
+		$.each(historyProducts, function (index, product) {
+			var html = '<li>'
+			+ '<a href="http://item.lppz.com'+unescape(product['path'])+'" title="'+unescape(product.pname)+'" class="pic">'
+			+ '<img src="'+unescape(product.img)+'" alt="" class="lazy" data-original="'+unescape(product.img)+'"/>'
+			+ '</a>'
+			+ '<a href="http://item.lppz.com'+unescape(product['path'])+'" class="tit">'+unescape(product.pname)+'</a>'
+			+ '<p><span class="price">'+unescape(product.pprice)+'</span></p>'
+			+ '</li>';
+			historyView.append(html);
+		});
+</script>
+</body>
+</html>

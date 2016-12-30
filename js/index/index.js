@@ -1,8 +1,23 @@
-require( '../../less/__index.less');
+require( "./index.less" );
 
-var settings = require( './../Settings.js');
-var ecLocalStorage = require( './../EcLocalStorage.js');
-require( './FunctionList.js');
-require( './Head.js');
-require( './MenuList.js');
-require( './Banner.js');
+import PageHead from './PageHead';
+import PageMain from './PageMain.js';
+import PageFoot from './PageFoot.js';
+
+//全页内容
+var Index = React.createClass({
+    render: function () {
+        return (
+            <div className="pageContentWrap">
+                <PageHead/>
+                <PageMain/>
+                <PageFoot/>
+            </div>
+        )
+    }
+})
+
+ReactDOM.render(
+    <Index />,
+    document.getElementById( "pageContent")
+);
